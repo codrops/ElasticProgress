@@ -1,5 +1,5 @@
 # Elastic Progress
-Creates a button that turns into a progress bar with a elastic effect. Based on a [Dribbble shot](https://dribbble.com/shots/1887815-Download) by [xjw](https://dribbble.com/xjw).
+Creates a button that turns into a progress bar with a elastic effect. Based on a [Dribbble shot](https://dribbble.com/shots/1887815-Download) by [xjw](https://dribbble.com/xjw). By Lucas Bebber.
 
 [Article on Codrops](http://tympanus.net/codrops/?p=25030)
 
