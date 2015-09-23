@@ -2,7 +2,6 @@ var gulp = require('gulp')
 var browserify = require('browserify')
 var source = require('vinyl-source-stream')
 var streamify = require('gulp-streamify')
-var stylus = require('gulp-stylus')
 var uglify = require('gulp-uglify')
 var extend = require('extend')
 var connect = require('gulp-connect')
@@ -47,17 +46,8 @@ gulp.task('js:dev',function(){
   buildJS({minify:false});
 });
 
-gulp.task('css',function(){
-  gulp.src('./demo/css/main.styl')
-    .pipe(stylus({
-      'include css': true
-    }))
-    .pipe(gulp.dest('./demo/css/'));
-});
-
-gulp.task('watch',['js:dev','css'],function(){
+gulp.task('watch',['js:dev'],function(){
   gulp.watch(['src/*.js','src/*.svg'],['js:dev']);
-  gulp.watch(['demo/css/*.styl'],['css']);
 });
 
 gulp.task('build',function(){
@@ -68,8 +58,5 @@ gulp.task('connect', function() {
   connect.server();
   opener('http://localhost:8080/demo');
 });
-gulp.task('connect-close', function(){
-  //connect.serverClose();
-})
 
-gulp.task('default', ['connect']);
+gulp.task('default', ['connect','watch']);

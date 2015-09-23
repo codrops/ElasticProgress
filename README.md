@@ -5,7 +5,7 @@ Creates a button that turns into a progress bar with a elastic effect. Based on 
 
 [Demo](http://tympanus.net/Development/ElasticProgress/)
 
-![Elastic Progress](http://codropspz.tympanus.netdna-cdn.com/codrops/wp-content/uploads/2015/09/elasticprogress.gif) 
+![Elastic Progress](http://codropspz.tympanus.netdna-cdn.com/codrops/wp-content/uploads/2015/09/elasticprogress.gif)
 
 ## Instructions
 
@@ -24,7 +24,7 @@ This project requires [GSAP](http://greensock.com/gsap). You can use either  Twe
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/plugins/AttrPlugin.min.js"></script>
 ```
 
-Then, include the `elastic-progress.min.js` file:
+Then, include the `elastic-progress.min.js` file, located in the `dist` folder:
 
 ```html
 <script src="path/to/js/elastic-progress.min.js"></script>
@@ -226,13 +226,13 @@ $ npm run build
 
 ## License
 
-Integrate or build upon it for free in your personal or commercial projects. Don't republish, redistribute or sell "as-is". 
+Integrate or build upon it for free in your personal or commercial projects. Don't republish, redistribute or sell "as-is".
 
 Read more here: [License](http://tympanus.net/codrops/licensing/)
 
 ## Misc
 
-Follow Lucas: [Twitter](https://twitter.com/lucasbebber), [Codepen](http://codepen.io/lbebber/), [GitHub](https://github.com/lbebber) 
+Follow Lucas: [Twitter](https://twitter.com/lucasbebber), [Codepen](http://codepen.io/lbebber/), [GitHub](https://github.com/lbebber)
 
 Follow Codrops: [Twitter](http://www.twitter.com/codrops), [Facebook](http://www.facebook.com/pages/Codrops/159107397912), [Google+](https://plus.google.com/101095823814290637419), [GitHub](https://github.com/codrops), [Pinterest](http://www.pinterest.com/codrops/)
 
