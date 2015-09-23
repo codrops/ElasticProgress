@@ -5,8 +5,7 @@ Creates a button that turns into a progress bar with a elastic effect. Based on 
 
 [Demo](http://tympanus.net/Development/ElasticProgress/)
 
-
-> Gif of the preloader
+![Elastic Progress](http://codropspz.tympanus.netdna-cdn.com/codrops/wp-content/uploads/2015/09/elasticprogress.gif) 
 
 ## Instructions
 
