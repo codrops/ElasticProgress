@@ -1,0 +1,42 @@
+{
+  "name": "elastic-progress",
+  "version": "0.0.2",
+  "description": "Download progress animation",
+  "main": "src/main.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "browserify": "^11.1.0",
+    "extend": "^3.0.0",
+    "gsap": "^1.18.0",
+    "gulp": "^3.9.0",
+    "gulp-connect": "^2.2.0",
+    "gulp-streamify": "^1.0.2",
+    "gulp-stylus": "^2.0.6",
+    "gulp-uglify": "^1.4.1",
+    "opener": "^1.4.1",
+    "svg-pathdata": "^1.0.1",
+    "svgify": "0.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "scripts": {
+    "test": "",
+    "start": "gulp connect",
+    "build:css": "gulp css",
+    "build:js": "gulp js",
+    "build": "gulp build",
+    "watch": "gulp watch",
+    "commit": "git add -A && git commit",
+    "push": "npm run commit && git push",
+    "patch": "npm run build && npm run commit && npm version patch"
+  },
+  "author": "Lucas Bebber",
+  "license": "ISC",
+  "browserify": {
+    "transform": [
+      "svgify"
+    ]
+  }
+}

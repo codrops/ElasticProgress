@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="1200px" height="841.89px" viewBox="0 0 1200 841.89" enable-background="new 0 0 1200 841.89" xml:space="preserve">
+<g id="container">
+	<g id="circle">
+		<g id="background">
+			<path id="bg" fill="#231F20" d="M0-50c27.614,0,50,22.386,50,50S27.614,50,0,50c-27.615,0-50-22.386-50-50S-27.615-50,0-50z"/>
+		</g>
+		<g id="overlay">
+			<path fill="#47FF03" d="M50,0c0,27.584-22.461,50-50,50c-27.636,0-50-22.416-50-50c0-27.594,22.364-50,50-50
+				C27.539-50,50-27.594,50,0z"/>
+		</g>
+		<g id="border">
+			<path fill="none" stroke="#231F20" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" d="M-23.833,21.445
+				c-80.313,1.374,7.956,104.833,89.191,104.833c81.7,0,191.842-105.833,110.142-105.833"/>
+		</g>
+		<g id="fill-line">
+			<path fill="none" stroke="#FF00FF" stroke-linecap="round" stroke-miterlimit="10" d="M-138.487,110.945l105,2"/>
+		</g>
+	</g>
+	<g id="arrow">
+		<g id="head">
+			<polygon fill="#FF00FF" points="-30.035,-31.56 0,0 30.035,-31.56 			"/>
+		</g>
+		<g id="line">
+			<rect x="-12.374" y="-68.78" fill="#FF00FF" width="24.749" height="41.552"/>
+		</g>
+		<g id="label">
+			<text transform="matrix(1 0 0 1 -0.7007 -41.584)" fill="#231F20" font-family="'Arial-BoldMT'" font-size="18">1</text>
+		</g>
+	</g>
+</g>
+<g id="hit-area">
+	<path fill="#00FFDA" d="M50,0c0,27.584-22.461,50-50,50c-27.636,0-50-22.416-50-50c0-27.594,22.364-50,50-50
+		C27.539-50,50-27.594,50,0z"/>
+</g>
+</svg>

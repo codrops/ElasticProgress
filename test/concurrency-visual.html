@@ -1,0 +1,155 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+        <style>
+          body{
+            text-align:center;
+            margin-top:200px;
+          }
+          .Download{
+            display:inline-block;
+          }
+        </style>
+    </head>
+    <body>
+
+        <div role="button" tabindex="0" aria-label="Download" class="Download" style="height:100px;width:200px"></div> <br>
+        <div role="button" tabindex="0" aria-label="Download" class="Download" style="height:100px;width:200px"></div> <br>
+        <div role="button" tabindex="0" aria-label="Download" class="Download" style="height:100px;width:200px"></div> <br>
+        <div role="button" tabindex="0" aria-label="Download" class="Download" style="height:100px;width:200px"></div> <br>
+        <div role="button" tabindex="0" aria-label="Download" class="Download" style="height:100px;width:200px"></div> <br>
+        <div role="button" tabindex="0" aria-label="Download" class="Download" style="height:100px;width:200px"></div> <br>
+        <div role="button" tabindex="0" aria-label="Download" class="Download" style="height:100px;width:200px"></div> <br>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.17.0/TweenMax.min.js"></script>
+        <script src="../dist/elastic-progress.js"></script>
+        <script>
+          $(document).ready(function(){
+
+            $(".Download").eq(0).ElasticProgress({
+              colorFg:"#ccc",
+              onClick:function(){
+                $(this).ElasticProgress("open");
+                initDownload($(this));
+              },
+              onComplete:function(){
+                console.log("complete");
+                $(this).ElasticProgress("close");
+              }
+            });
+            $(".Download").eq(1).ElasticProgress({
+              colorFg:"#ccc",
+              onClick:function(){
+                $(this).ElasticProgress("open");
+                initDownload($(this));
+                var button=$(this);
+                TweenMax.delayedCall(0.1,function(){
+                  button.ElasticProgress("cancel");
+                  button.ElasticProgress("open");
+                  TweenMax.delayedCall(0.1,function(){
+                    button.ElasticProgress("cancel");
+                    button.ElasticProgress("fail");
+                  })
+                });
+              },
+              onCancel:function(){
+                $(this).ElasticProgress("close");
+              },
+              onFail:function(){
+                $(this).ElasticProgress("close");
+                $(this).ElasticProgress("cancel");
+                $(this).ElasticProgress("fail");
+              },
+              onClose:function(){
+                $(this).ElasticProgress("fail");
+                $(this).ElasticProgress("close");
+              },
+              onComplete:function(){
+                $(this).ElasticProgress("close");
+              }
+            });
+            $(".Download").eq(2).ElasticProgress({
+              colorFg:"#ccc",
+              onClick:function(){
+                $(this).ElasticProgress("open");
+                initDownload($(this));
+              },
+              onChange:function(){
+                var v=$(this).ElasticProgress("getValue");
+                if(v>=0.99){
+                  $(this).ElasticProgress("fail");
+                }
+              },
+              onComplete:function(){
+                $(this).ElasticProgress("fail");
+              }
+            });
+            $(".Download").eq(3).ElasticProgress({
+              colorFg:"#ccc",
+              onClick:function(){
+                $(this).ElasticProgress("open");
+                initDownload($(this));
+              },
+              onChange:function(){
+                var v=$(this).ElasticProgress("getValue");
+                if(v>=1){
+                  TweenMax.delayedCall(1,function(){
+                    $(this).ElasticProgress("fail");
+                  })
+                }
+              },
+              onComplete:function(){
+                $(this).ElasticProgress("fail");
+              }
+            });
+            $(".Download").eq(4).ElasticProgress({
+              colorFg:"#ccc",
+              onClick:function(){
+                $(this).ElasticProgress("open");
+                initDownload($(this));
+              },
+              onChange:function(){
+                var v=$(this).ElasticProgress("getValue");
+                if(v>=0.99){
+                  $(this).ElasticProgress("close");
+                }
+              },
+              onComplete:function(){
+                $(this).ElasticProgress("fail");
+              }
+            });
+            $(".Download").eq(5).ElasticProgress({
+              colorFg:"#ccc",
+              onClick:function(){
+                $(this).ElasticProgress("open");
+                $(this).ElasticProgress("close");
+                initDownload($(this));
+              },
+              onChange:function(){
+                var v=$(this).ElasticProgress("getValue");
+                if(v>=0.99){
+                  $(this).ElasticProgress("close");
+                }
+              },
+              onComplete:function(){
+                $(this).ElasticProgress("fail");
+              }
+            });
+            function initDownload($button){
+              var v=0;
+              setInterval(function(){
+                v+=0.04;
+                $button.ElasticProgress("setValue",v);
+              },100)
+            }
+          })
+        </script>
+
+    </body>
+</html>
