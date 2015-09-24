@@ -129,12 +129,14 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 },{}],3:[function(require,module,exports){
 arguments[4][2][0].apply(exports,arguments)
 },{"dup":2}],4:[function(require,module,exports){
+(function (global){
 /*!
  * The buffer module from node.js, for the browser.
  *
  * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
  * @license  MIT
  */
+/* eslint-disable no-proto */
 
 var base64 = require('base64-js')
 var ieee754 = require('ieee754')
@@ -174,20 +176,22 @@ var rootParent = {}
  * We detect these buggy browsers and set `Buffer.TYPED_ARRAY_SUPPORT` to `false` so they
  * get the Object implementation, which is slower but behaves correctly.
  */
-Buffer.TYPED_ARRAY_SUPPORT = (function () {
-  function Bar () {}
-  try {
-    var arr = new Uint8Array(1)
-    arr.foo = function () { return 42 }
-    arr.constructor = Bar
-    return arr.foo() === 42 && // typed array instances can be augmented
-        arr.constructor === Bar && // constructor can be set
-        typeof arr.subarray === 'function' && // chrome 9-10 lack `subarray`
-        arr.subarray(1, 1).byteLength === 0 // ie10 has broken `subarray`
-  } catch (e) {
-    return false
-  }
-})()
+Buffer.TYPED_ARRAY_SUPPORT = global.TYPED_ARRAY_SUPPORT !== undefined
+  ? global.TYPED_ARRAY_SUPPORT
+  : (function () {
+      function Bar () {}
+      try {
+        var arr = new Uint8Array(1)
+        arr.foo = function () { return 42 }
+        arr.constructor = Bar
+        return arr.foo() === 42 && // typed array instances can be augmented
+            arr.constructor === Bar && // constructor can be set
+            typeof arr.subarray === 'function' && // chrome 9-10 lack `subarray`
+            arr.subarray(1, 1).byteLength === 0 // ie10 has broken `subarray`
+      } catch (e) {
+        return false
+      }
+    })()
 
 function kMaxLength () {
   return Buffer.TYPED_ARRAY_SUPPORT
@@ -343,10 +347,16 @@ function fromJsonObject (that, object) {
   return that
 }
 
+if (Buffer.TYPED_ARRAY_SUPPORT) {
+  Buffer.prototype.__proto__ = Uint8Array.prototype
+  Buffer.__proto__ = Uint8Array
+}
+
 function allocate (that, length) {
   if (Buffer.TYPED_ARRAY_SUPPORT) {
     // Return an augmented `Uint8Array` instance, for best performance
     that = Buffer._augment(new Uint8Array(length))
+    that.__proto__ = Buffer.prototype
   } else {
     // Fallback: Return an object instance of the Buffer class
     that.length = length
@@ -1663,6 +1673,7 @@ function blitBuffer (src, dst, offset, length) {
   return i
 }
 
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"base64-js":1,"ieee754":8,"is-array":10}],5:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
@@ -1772,8 +1783,8 @@ exports.isBuffer = isBuffer;
 function objectToString(o) {
   return Object.prototype.toString.call(o);
 }
-}).call(this,require("buffer").Buffer)
-},{"buffer":4}],6:[function(require,module,exports){
+}).call(this,{"isBuffer":require("/Users/lucasbebber/Dropbox-Garden/Dropbox/Garden/www/codrops-buttons-github/ElasticProgress/node_modules/is-buffer/index.js")})
+},{"/Users/lucasbebber/Dropbox-Garden/Dropbox/Garden/www/codrops-buttons-github/ElasticProgress/node_modules/is-buffer/index.js":11}],6:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -2311,11 +2322,30 @@ module.exports = isArray || function (val) {
 };
 
 },{}],11:[function(require,module,exports){
+/**
+ * Determine if an object is Buffer
+ *
+ * Author:   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * License:  MIT
+ *
+ * `npm install is-buffer`
+ */
+
+module.exports = function (obj) {
+  return !!(obj != null &&
+    (obj._isBuffer || // For Safari 5-7 (missing Object.prototype.constructor)
+      (obj.constructor &&
+      typeof obj.constructor.isBuffer === 'function' &&
+      obj.constructor.isBuffer(obj))
+    ))
+}
+
+},{}],12:[function(require,module,exports){
 module.exports = Array.isArray || function (arr) {
   return Object.prototype.toString.call(arr) == '[object Array]';
 };
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 (function (process){
 'use strict';
 module.exports = nextTick;
@@ -2332,7 +2362,7 @@ function nextTick(fn) {
 }
 
 }).call(this,require('_process'))
-},{"_process":13}],13:[function(require,module,exports){
+},{"_process":14}],14:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -2425,7 +2455,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 // a duplex stream is just a stream that is both readable and writable.
 // Since JS doesn't have multiple prototypal inheritance, this class
 // prototypally inherits from Readable, and then parasitically from
@@ -2509,7 +2539,7 @@ function forEach (xs, f) {
   }
 }
 
-},{"./_stream_readable":16,"./_stream_writable":18,"core-util-is":5,"inherits":9,"process-nextick-args":12}],15:[function(require,module,exports){
+},{"./_stream_readable":17,"./_stream_writable":19,"core-util-is":5,"inherits":9,"process-nextick-args":13}],16:[function(require,module,exports){
 // a passthrough stream.
 // basically just the most minimal sort of Transform stream.
 // Every written chunk gets output as-is.
@@ -2538,7 +2568,7 @@ PassThrough.prototype._transform = function(chunk, encoding, cb) {
   cb(null, chunk);
 };
 
-},{"./_stream_transform":17,"core-util-is":5,"inherits":9}],16:[function(require,module,exports){
+},{"./_stream_transform":18,"core-util-is":5,"inherits":9}],17:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -3501,7 +3531,7 @@ function indexOf (xs, x) {
 }
 
 }).call(this,require('_process'))
-},{"./_stream_duplex":14,"_process":13,"buffer":4,"core-util-is":5,"events":6,"inherits":9,"isarray":11,"process-nextick-args":12,"string_decoder/":20,"util":2}],17:[function(require,module,exports){
+},{"./_stream_duplex":15,"_process":14,"buffer":4,"core-util-is":5,"events":6,"inherits":9,"isarray":12,"process-nextick-args":13,"string_decoder/":21,"util":2}],18:[function(require,module,exports){
 // a transform stream is a readable/writable stream where you do
 // something with the data.  Sometimes it's called a "filter",
 // but that's not a great name for it, since that implies a thing where
@@ -3700,7 +3730,7 @@ function done(stream, er) {
   return stream.push(null);
 }
 
-},{"./_stream_duplex":14,"core-util-is":5,"inherits":9}],18:[function(require,module,exports){
+},{"./_stream_duplex":15,"core-util-is":5,"inherits":9}],19:[function(require,module,exports){
 // A bit simpler than readable streams.
 // Implement an async ._write(chunk, cb), and it'll handle all
 // the drain event emission and buffering.
@@ -4222,7 +4252,7 @@ function endWritable(stream, state, cb) {
   state.ended = true;
 }
 
-},{"./_stream_duplex":14,"buffer":4,"core-util-is":5,"events":6,"inherits":9,"process-nextick-args":12,"util-deprecate":25}],19:[function(require,module,exports){
+},{"./_stream_duplex":15,"buffer":4,"core-util-is":5,"events":6,"inherits":9,"process-nextick-args":13,"util-deprecate":26}],20:[function(require,module,exports){
 var Stream = (function (){
   try {
     return require('st' + 'ream'); // hack to fix a circular dependency issue when used with browserify
@@ -4236,7 +4266,7 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":14,"./lib/_stream_passthrough.js":15,"./lib/_stream_readable.js":16,"./lib/_stream_transform.js":17,"./lib/_stream_writable.js":18}],20:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":15,"./lib/_stream_passthrough.js":16,"./lib/_stream_readable.js":17,"./lib/_stream_transform.js":18,"./lib/_stream_writable.js":19}],21:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -4459,7 +4489,7 @@ function base64DetectIncompleteChar(buffer) {
   this.charLength = this.charReceived ? 3 : 0;
 }
 
-},{"buffer":4}],21:[function(require,module,exports){
+},{"buffer":4}],22:[function(require,module,exports){
 function SVGPathData(content) {
   this.commands = SVGPathData.parse(content);
 }
@@ -4601,7 +4631,7 @@ SVGPathData.Encoder = require('./SVGPathDataEncoder.js');
 SVGPathData.Transformer = require('./SVGPathDataTransformer.js');
 
 
-},{"./SVGPathDataEncoder.js":22,"./SVGPathDataParser.js":23,"./SVGPathDataTransformer.js":24}],22:[function(require,module,exports){
+},{"./SVGPathDataEncoder.js":23,"./SVGPathDataParser.js":24,"./SVGPathDataTransformer.js":25}],23:[function(require,module,exports){
 (function (Buffer){
 // Encode SVG PathData
 // http://www.w3.org/TR/SVG/paths.html#PathDataBNF
@@ -4707,7 +4737,7 @@ module.exports = SVGPathDataEncoder;
 
 
 }).call(this,require("buffer").Buffer)
-},{"./SVGPathData.js":21,"buffer":4,"readable-stream":19,"util":27}],23:[function(require,module,exports){
+},{"./SVGPathData.js":22,"buffer":4,"readable-stream":20,"util":28}],24:[function(require,module,exports){
 (function (Buffer){
 // Parse SVG PathData
 // http://www.w3.org/TR/SVG/paths.html#PathDataBNF
@@ -5215,7 +5245,7 @@ module.exports = SVGPathDataParser;
 
 
 }).call(this,require("buffer").Buffer)
-},{"./SVGPathData.js":21,"buffer":4,"readable-stream":19,"util":27}],24:[function(require,module,exports){
+},{"./SVGPathData.js":22,"buffer":4,"readable-stream":20,"util":28}],25:[function(require,module,exports){
 // Transform SVG PathData
 // http://www.w3.org/TR/SVG/paths.html#PathDataBNF
 
@@ -5629,7 +5659,7 @@ function a2c (x1, y1, rx, ry, angle, large_arc_flag, sweep_flag, x2, y2, recursi
 module.exports = SVGPathDataTransformer;
 
 
-},{"./SVGPathData.js":21,"readable-stream":19,"util":27}],25:[function(require,module,exports){
+},{"./SVGPathData.js":22,"readable-stream":20,"util":28}],26:[function(require,module,exports){
 (function (global){
 
 /**
@@ -5695,14 +5725,14 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -6292,14 +6322,14 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":26,"_process":13,"inherits":9}],28:[function(require,module,exports){
+},{"./support/isBuffer":27,"_process":14,"inherits":9}],29:[function(require,module,exports){
 var extend=require("extend");
 
 module.exports=function(obj){
   return extend(true,{},obj);
 }
 
-},{"extend":7}],29:[function(require,module,exports){
+},{"extend":7}],30:[function(require,module,exports){
 function createSVG(width,height){
   if(typeof width=="undefined") width=1200;
   if(typeof height=="undefined") height=1200;
@@ -6313,12 +6343,12 @@ function createSVG(width,height){
 
 module.exports=createSVG;
 
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 module.exports=function(v,min,max){
   return Math.max(Math.min(v,max),min);
 }
 
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 'use strict';
 
 var CSSPlugin=require('gsap/src/uncompressed/plugins/CSSPlugin');
@@ -7718,7 +7748,7 @@ ElasticProgress.prototype=extend(
 
 module.exports=ElasticProgress;
 
-},{"./clone":28,"./create-svg":29,"./cutoff":30,"./gfx-of":32,"./is-set":33,"./pointer-events":35,"./svg/bt.svg":36,"extend":7,"gsap/src/uncompressed/TweenLite":3,"gsap/src/uncompressed/easing/EasePack":3,"gsap/src/uncompressed/plugins/CSSPlugin":3,"svg-pathdata":21}],32:[function(require,module,exports){
+},{"./clone":29,"./create-svg":30,"./cutoff":31,"./gfx-of":33,"./is-set":34,"./pointer-events":36,"./svg/bt.svg":37,"extend":7,"gsap/src/uncompressed/TweenLite":3,"gsap/src/uncompressed/easing/EasePack":3,"gsap/src/uncompressed/plugins/CSSPlugin":3,"svg-pathdata":22}],33:[function(require,module,exports){
 // Returns all graphic elements (paths, shapes, text, etc) from a (group of) SVG element(s)
 var graphicTypes=["polygon","polyline","path","circle","rect","text","line","ellipse"];
 
@@ -7735,12 +7765,12 @@ module.exports=function(elements){
   });
 }
 
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 module.exports=function(v){
   return typeof v!="undefined";
 }
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 // Interface for the actual Elastic Progress
 
 'use strict';
@@ -7865,7 +7895,7 @@ if(isSet(jQuery)){
 
 module.exports=ElasticProgress;
 
-},{"./elastic-progress":31,"./is-set":33,"./to-array":37,"extend":7}],35:[function(require,module,exports){
+},{"./elastic-progress":32,"./is-set":34,"./to-array":38,"extend":7}],36:[function(require,module,exports){
 var debug=true;
 var blockedEvents=[];
 var listeners=[];
@@ -8014,10 +8044,10 @@ var api={
 
 module.exports=api;
 
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 function format(text) {return function(x, y) {x = (+x|0);y = (+y|0);var el = document.createElement("div");el.innerHTML = "<svg><g><g>" + text + "</g></g></svg>";el = el.childNodes[0].childNodes[0];el.childNodes[0].setAttribute("transform", "translate(" + x + "," + y + ")");return el}}
 module.exports = format("\n<g id=\"container\">\n	<g id=\"circle\">\n		<g id=\"background\">\n			<path id=\"bg\" fill=\"#231F20\" d=\"M0-50c27.614,0,50,22.386,50,50S27.614,50,0,50c-27.615,0-50-22.386-50-50S-27.615-50,0-50z\"/>\n		</g>\n		<g id=\"overlay\">\n			<path fill=\"#47FF03\" d=\"M50,0c0,27.584-22.461,50-50,50c-27.636,0-50-22.416-50-50c0-27.594,22.364-50,50-50\n				C27.539-50,50-27.594,50,0z\"/>\n		</g>\n		<g id=\"border\">\n			<path fill=\"none\" stroke=\"#231F20\" stroke-width=\"4\" stroke-linecap=\"round\" stroke-miterlimit=\"10\" d=\"M-23.833,21.445\n				c-80.313,1.374,7.956,104.833,89.191,104.833c81.7,0,191.842-105.833,110.142-105.833\"/>\n		</g>\n		<g id=\"fill-line\">\n			<path fill=\"none\" stroke=\"#FF00FF\" stroke-linecap=\"round\" stroke-miterlimit=\"10\" d=\"M-138.487,110.945l105,2\"/>\n		</g>\n	</g>\n	<g id=\"arrow\">\n		<g id=\"head\">\n			<polygon fill=\"#FF00FF\" points=\"-30.035,-31.56 0,0 30.035,-31.56 			\"/>\n		</g>\n		<g id=\"line\">\n			<rect x=\"-12.374\" y=\"-68.78\" fill=\"#FF00FF\" width=\"24.749\" height=\"41.552\"/>\n		</g>\n		<g id=\"label\">\n			<text transform=\"matrix(1 0 0 1 -0.7007 -41.584)\" fill=\"#231F20\" font-family=\"'Arial-BoldMT'\" font-size=\"18\">1</text>\n		</g>\n	</g>\n</g>\n<g id=\"hit-area\">\n	<path fill=\"#00FFDA\" d=\"M50,0c0,27.584-22.461,50-50,50c-27.636,0-50-22.416-50-50c0-27.594,22.364-50,50-50\n		C27.539-50,50-27.594,50,0z\"/>\n</g>\n")
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 // Converts NodeList/jQuery collections/etc to array
 function toArray(obj){
   return [].slice.call(obj);
@@ -8025,5 +8055,5 @@ function toArray(obj){
 
 module.exports=toArray;
 
-},{}]},{},[34])(34)
+},{}]},{},[35])(35)
 });
