@@ -82,7 +82,7 @@ var progress=new ElasticProgress('.Upload', {
 });
 function theFunctionYouAreUsingToCheckProgress(){
   // ...
-  progress.set(value);
+  progress.setValue(value);
 }
 
 
@@ -96,7 +96,7 @@ $(".Upload").ElasticProgress({
 
 function theFunctionYouAreUsingToCheckProgress(){
   // ...
-  $(".Upload").ElasticProgress('set',value);
+  $(".Upload").ElasticProgress('setValue',value);
 }
 
 ```
