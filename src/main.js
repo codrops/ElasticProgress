@@ -80,6 +80,7 @@ ElasticProgress.prototype=extend(
 );
 
 // jQuery plugin, in case jQuery is available
+var jQuery = jQuery || undefined;
 if(isSet(jQuery)){
   (function($){
     $.fn.ElasticProgress=function(optionsOrMethod){
