@@ -10,18 +10,19 @@
   "directories": {
     "doc": "doc"
   },
-  "dependencies": {},
-  "devDependencies": {
-    "browserify": "^11.1.0",
+  "dependencies": {
     "extend": "^3.0.0",
     "gsap": "^1.18.0",
+    "svgify": "0.0.0",
+    "svg-pathdata": "^1.0.1"
+  },
+  "devDependencies": {
+    "browserify": "^11.1.0",
     "gulp": "^3.9.0",
     "gulp-connect": "^2.2.0",
     "gulp-streamify": "^1.0.2",
     "gulp-uglify": "^1.4.1",
     "opener": "^1.4.1",
-    "svg-pathdata": "^1.0.1",
-    "svgify": "0.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
   "scripts": {
